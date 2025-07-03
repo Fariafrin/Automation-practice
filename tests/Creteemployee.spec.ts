@@ -1,15 +1,5 @@
 import { test, expect } from "@playwright/test";
 
-// test("Navigate to OrangeHRM Login Page", async ({ page }) => {
-//     await page.goto(
-//         "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login",
-//     );
-
-//     await expect(page).toHaveURL(/.*auth\/login/);
-//     const loginButton = page.locator("button[type='submit']");
-//     await expect(loginButton).toBeVisible();
-// });
-
 test("OrangeHRM Login Test", async ({ page }) => {
     // Navigate to the Login Page
     await page.goto(
@@ -31,4 +21,10 @@ test("OrangeHRM Login Test", async ({ page }) => {
     // Optionally, check for a Dashboard element
     const dashboardHeader = page.locator("h6:has-text('Dashboard')");
     await expect(dashboardHeader).toBeVisible();
+
+    //await page.getByRole("link", { name: "PIM" }).click();
+
+    //await expect(page).toHaveURL(/.*"PIM"/);
+    await page.getByRole("link", { name: "PIM" }).click();
+    await expect(page).toHaveURL(/.*"PIM"/);
 });
