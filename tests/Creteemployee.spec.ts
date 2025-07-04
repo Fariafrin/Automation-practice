@@ -42,8 +42,9 @@ test("OrangeHRM Login Test", async ({ page }) => {
     await page.getByPlaceholder("Middle Name").fill("AF");
     await page.getByPlaceholder("Last Name").fill("RiN");
 
-    const toggleSelector = "input[type='checkbox']";
-    await page.click(toggleSelector);
+    // const toggleSelector = "input[type='checkbox']";
+    // await page.click(toggleSelector);
+    await page.getByRole("button", { name: "Save" }).click();
     await page.pause();
     // console.log("*************************************************");
 });
