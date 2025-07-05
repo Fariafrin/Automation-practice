@@ -1,46 +1,30 @@
+/* eslint-disable playwright/require-top-level-describe */
 /* eslint-disable playwright/no-page-pause */
 import { test, expect } from "@playwright/test";
+import { login } from "../utilities/login";
+import { createemployee } from "../utilities/createemployee";
+import * as fs from "fs";
 
 test("OrangeHRM Login Test", async ({ page }) => {
     // Navigate to the Login Page
-    await page.goto(
-        "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login",
-    );
+    await login(page);
 
-    // Locate and Fill Username
-    await page.getByPlaceholder("Username").fill("Admin");
+    await createemployee(page);
 
-    // Locate and Fill Password
-    await page.getByPlaceholder("Password").fill("admin123");
-
-    // Click the Login Button
-    await page.getByRole("button", { name: "Login" }).click();
-
-    // Assertion to ensure Login was successful
-    await expect.soft(page).toHaveURL(/.*dashboard/);
-
-    // Optionally, check for a Dashboard element
-    const dashboardHeader = page.locator("h6:has-text('Dashboard')");
-    await expect.soft(dashboardHeader).toBeVisible();
-
-    //await page.getByRole("link", { name: "PIM" }).click();
-
-    //await expect(page).toHaveURL(/.*"PIM"/);
-    //await page.pause();
     await page.getByRole("link", { name: "PIM" }).click();
     await expect.soft(page).toHaveURL(/.*pim.*/i);
 
     const pimHeader = page.locator("h5:has-text('Employee Information')");
     await expect.soft(pimHeader).toBeVisible();
-    // await page.pause();
 
-    // const toggleSelector = "input[type='checkbox']";
-    // await page.click(toggleSelector);
+    // Read employeeId from JSON file
+    const empData = JSON.parse(
+        fs.readFileSync("data/employeeData.json", "utf-8"),
+    );
+    const employeeId = empData.employeeId;
 
-    await page
-        .getByRole("textbox", { name: "Type for hints..." })
-        .first()
-        .fill("Lisa");
+    // Fill Employee ID Search Field
+    await page.getByRole("textbox").nth(2).fill(employeeId);
 
     await page.getByRole("button", { name: "Search" }).click();
 

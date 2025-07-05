@@ -1,12 +1,7 @@
-/* eslint-disable playwright/require-top-level-describe */
-/* eslint-disable playwright/no-page-pause */
-import { test, expect } from "@playwright/test";
-import { login } from "../utilities/login";
+import { Page, expect } from "@playwright/test";
 import * as fs from "fs";
 
-test("OrangeHRM Add Employee Test", async ({ page }) => {
-    await login(page);
-
+export async function createemployee(page: Page) {
     await page.getByRole("link", { name: "PIM" }).click();
     await expect.soft(page).toHaveURL(/.*pim.*/i);
 
@@ -51,6 +46,4 @@ test("OrangeHRM Add Employee Test", async ({ page }) => {
 
     const pdHeader = page.locator("h6:has-text('Personal Details')");
     await expect.soft(pdHeader).toBeVisible();
-
-    // await page.pause();
-});
+}
