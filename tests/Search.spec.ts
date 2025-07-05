@@ -1,3 +1,4 @@
+/* eslint-disable playwright/no-page-pause */
 import { test, expect } from "@playwright/test";
 
 test("OrangeHRM Login Test", async ({ page }) => {

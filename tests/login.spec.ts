@@ -1,3 +1,5 @@
+/* eslint-disable playwright/require-soft-assertions */
+/* eslint-disable playwright/require-top-level-describe */
 import { test, expect } from "@playwright/test";
 
 // test("Navigate to OrangeHRM Login Page", async ({ page }) => {
