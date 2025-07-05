@@ -27,6 +27,7 @@ test("OrangeHRM Login Test", async ({ page }) => {
     await page.getByRole("textbox").nth(2).fill(employeeId);
 
     await page.getByRole("button", { name: "Search" }).click();
+    await page.getByRole("button", { name: "Search" }).click();
 
     await page.pause();
     // console.log("*************************************************");
