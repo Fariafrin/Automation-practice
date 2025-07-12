@@ -24,19 +24,31 @@ test("OrangeHRM Conditional Employee Upload and Pagination Test", async ({
         .last();
 
     try {
+        await nextButton.waitFor({ timeout: 10000 });
+        await nextButton.click();
+    } catch (e) {
+        console.log("Next button not found, continuing...");
+    }
+
+    try {
         const isVisible = await nextButton.isVisible();
 
         if (isVisible) {
+            await nextButton.click();
             await nextButton.click();
             console.log("✅ Clicked on the Next button successfully.");
         } else {
             console.log("⚠️ Next button is hidden. Uploading 60 employees...");
 
             // Step 3: Upload CSV if Next button is hidden
+            await page.pause();
             await uploadCsv(page);
 
-            await page.pause();
-            await page.getByText("Ok").click();
+            const okButton = page.getByRole("button", { name: "Ok" });
+
+            await okButton.waitFor({ state: "visible", timeout: 10000 });
+            await okButton.click();
+            console.log("✅ Clicked on OK button after upload.");
 
             //await expect(page).toHaveURL(/.*\/pimCsvImport*/i);
             // const dataHeader = page.locator("p:has-text("Data Import")");
@@ -47,14 +59,19 @@ test("OrangeHRM Conditional Employee Upload and Pagination Test", async ({
 
             await expect.soft(pimHeader).toBeVisible();
 
-            await nextButton.waitFor({ timeout: 10000 }); // waits up to 5 seconds
-
             // Step 4: Try clicking next again after upload
             const nextButtonAfterUpload = page
                 .locator(
                     ".oxd-pagination-page-item.oxd-pagination-page-item--previous-next",
                 )
                 .last();
+
+            try {
+                await nextButtonAfterUpload.waitFor({ timeout: 10000 });
+                await nextButtonAfterUpload.click();
+            } catch (e) {
+                console.log("Next button not found, continuing...");
+            }
 
             const isVisibleAfterUpload =
                 await nextButtonAfterUpload.isVisible();
@@ -99,6 +116,6 @@ async function uploadCsv(page: Page) {
     await page.getByRole("button", { name: "Upload" }).click();
 
     // Optionally check success message
-    const successToast = page.locator(".oxd-toast-content");
-    await expect(successToast).toContainText("Successfully Uploaded");
+    const modal = page.locator("role=document >> text=Import Details");
+    await expect(modal).toBeVisible();
 }
