@@ -1,3 +1,4 @@
+/* eslint-disable playwright/no-page-pause */
 import { Page, expect } from "@playwright/test";
 import * as fs from "fs";
 
