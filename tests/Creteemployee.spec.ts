@@ -3,6 +3,7 @@
 import { test, expect } from "@playwright/test";
 import { login } from "../utilities/login";
 import * as fs from "fs";
+import { faker } from "@faker-js/faker";
 
 test("OrangeHRM Add Employee Test", async ({ page }) => {
     await login(page);
@@ -19,22 +20,21 @@ test("OrangeHRM Add Employee Test", async ({ page }) => {
     const addempHeader = page.locator("h6:has-text('Add Employee')");
     await expect.soft(addempHeader).toBeVisible();
 
-    await page.getByPlaceholder("First Name").fill("Lisa");
-    await page.getByPlaceholder("Middle Name").fill("AF");
-    await page.getByPlaceholder("Last Name").fill("RiN");
+    const firstName = faker.person.firstName();
+    const middleName = faker.person.middleName();
+    const lastName = faker.person.lastName();
+    await page.getByPlaceholder("First Name").fill(firstName);
+    await page.getByPlaceholder("Middle Name").fill(middleName);
+    await page.getByPlaceholder("Last Name").fill(lastName);
 
-    // Capture employee ID
-    //await page.getByRole("textbox").nth(4).fill("9102");
-
-    // Function to generate a 10-digit unique ID
-    function generate10DigitID(): string {
-        const min = 1000000000; // Smallest 10-digit number
-        const max = 9999999999; // Largest 10-digit number
-        return Math.floor(Math.random() * (max - min + 1) + min).toString();
+    function generateUTCId(): string {
+        const now = new Date();
+        const fullTimeStr = now.toISOString().replace(/[-:.TZ]/g, "");
+        return fullTimeStr.substring(0, 10);
     }
 
     // Fill employee ID field
-    const uniqueEmpID = generate10DigitID();
+    const uniqueEmpID = generateUTCId();
 
     await page.getByRole("textbox").nth(4).fill(uniqueEmpID);
 
