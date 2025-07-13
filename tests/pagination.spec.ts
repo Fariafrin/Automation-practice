@@ -1,3 +1,4 @@
+/* eslint-disable playwright/require-top-level-describe */
 /* eslint-disable playwright/require-soft-assertions */
 /* eslint-disable playwright/no-page-pause */
 import { test, expect } from "@playwright/test";
