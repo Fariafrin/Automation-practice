@@ -20,7 +20,8 @@
         "check-all": "node src/utilities/house_keeping/check-all.js",
         "git-stats": "ts-node src/utilities/reporters/commit_parser.ts",
         "clear-sessions": "npx playwright test --grep 'Delete all JSON files in artifacts/auth and src/sessions'",
-        "postinstall": "npx playwright install --with-deps"
+        "postinstall-original-command": "npx playwright install --with-deps", 
+        "postinstall": "pnpm exec playwright install --with-deps"
     },
     "repository": {
         "type": "git",
