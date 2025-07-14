@@ -6,40 +6,35 @@ import { login } from "../utilities/login";
 import { Page } from "@playwright/test";
 import { generateEmployeeCSV } from "../utilities/generateEmployeeCSV";
 
-test.describe("OrangeHRM Tests", () => {
-    //This runs before each test in this describe block
-    test.beforeEach(async ({ page }) => {
-        await login(page); // Login step
-        //await createemployee(page); // Employee creation
-    });
+test("OrangeHRM Conditional Employee Upload and Pagination Test", async ({
+    page,
+}) => {
+    await login(page);
 
-    test("OrangeHRM Conditional Employee Upload and Pagination Test", async ({
-        page,
-    }) => {
-        await login(page);
+    // PIM
+    await page.getByRole("link", { name: "PIM" }).click();
+    await expect.soft(page).toHaveURL(/.*pim.*/i);
 
-        // PIM
-        await page.getByRole("link", { name: "PIM" }).click();
-        await expect.soft(page).toHaveURL(/.*pim.*/i);
+    const pimHeader = page.locator("h5:has-text('Employee Information')");
+    await expect.soft(pimHeader).toBeVisible();
 
-        const pimHeader = page.locator("h5:has-text('Employee Information')");
-        await expect.soft(pimHeader).toBeVisible();
+    // const nextButton = page
+    //     .locator(
+    //         ".oxd-pagination-page-item.oxd-pagination-page-item--previous-next",
+    //     )
+    //
 
-<<<<<<< Updated upstream
     const nextButton = page.locator(".oxd-icon.bi-chevron-right");
-=======
-        // const nextButton = page
-        //     .locator(
-        //         ".oxd-pagination-page-item.oxd-pagination-page-item--previous-next",
-        //     )
-        //
->>>>>>> Stashed changes
 
-        const nextButton = page.locator(".oxd-icon.bi-chevron-right");
+    console.log("#####################################");
 
-        console.log("#####################################");
+    // try {
+    //     await nextButton.waitFor({ timeout: 10000 });
+    //     await nextButton.click();
+    // } catch (e) {
+    //     console.log("Next button not found, continuing...");
+    // }
 
-<<<<<<< Updated upstream
     //await page.pause();
 
     await expect(nextButton).toBeVisible({ timeout: 10000 });
@@ -51,105 +46,81 @@ test.describe("OrangeHRM Tests", () => {
     try {
         // const isVisible = await nextButton.isVisible();
         // await nextButton.waitFor({ timeout: 10000 });
-=======
-        // try {
-        //     await nextButton.waitFor({ timeout: 10000 });
-        //     await nextButton.click();
-        // } catch (e) {
-        //     console.log("Next button not found, continuing...");
-        // }
->>>>>>> Stashed changes
 
         //await page.pause();
-        await expect(nextButton).toBeVisible({ timeout: 10000 });
-        const isVisible = await nextButton.isVisible();
-        console.log("***************************");
-        console.log("Is Next button visible?", isVisible);
 
-        try {
-            // const isVisible = await nextButton.isVisible();
-            // await nextButton.waitFor({ timeout: 10000 });
+        if (isVisible) {
+            await nextButton.click();
+            await nextButton.click();
+            console.log("✅ Clicked on the Next button successfully.");
+        } else {
+            console.log("⚠️ Next button is hidden. Uploading 60 employees...");
 
-            //await page.pause();
+            // Upload CSV if Next button is hidden
+            await page.pause();
+            const csvPath = generateEmployeeCSV(50);
+            await uploadCsv(page, csvPath);
 
-            if (isVisible) {
-                await nextButton.click();
-                await nextButton.click();
-                console.log("✅ Clicked on the Next button successfully.");
+            const okButton = page.getByRole("button", { name: "Ok" });
+
+            await okButton.waitFor({ state: "visible", timeout: 10000 });
+            await okButton.click();
+            console.log("✅ Clicked on OK button after upload.");
+
+            await page.getByRole("link", { name: "PIM" }).click();
+            await expect.soft(page).toHaveURL(/.*pim.*/i);
+
+            await expect.soft(pimHeader).toBeVisible();
+
+            // Try clicking next after upload
+            const nextButtonAfterUpload = page
+                .locator(
+                    ".oxd-pagination-page-item.oxd-pagination-page-item--previous-next",
+                )
+                .last();
+
+            try {
+                await nextButtonAfterUpload.waitFor({ timeout: 10000 });
+                await nextButtonAfterUpload.click();
+            } catch (e) {
+                console.log("Next button not found, continuing...");
+            }
+
+            const isVisibleAfterUpload =
+                await nextButtonAfterUpload.isVisible();
+
+            if (isVisibleAfterUpload) {
+                // await nextButtonAfterUpload.click();
+                console.log("✅ Clicked on the Next button after upload.");
             } else {
                 console.log(
-                    "⚠️ Next button is hidden. Uploading 60 employees...",
+                    "❌ Still no next page available even after upload.",
                 );
-
-                // Upload CSV if Next button is hidden
-                await page.pause();
-                const csvPath = generateEmployeeCSV(50);
-                await uploadCsv(page, csvPath);
-
-                const okButton = page.getByRole("button", { name: "Ok" });
-
-                await okButton.waitFor({ state: "visible", timeout: 10000 });
-                await okButton.click();
-                console.log("✅ Clicked on OK button after upload.");
-
-                await page.getByRole("link", { name: "PIM" }).click();
-                await expect.soft(page).toHaveURL(/.*pim.*/i);
-
-                await expect.soft(pimHeader).toBeVisible();
-
-                // Try clicking next after upload
-                const nextButtonAfterUpload = page
-                    .locator(
-                        ".oxd-pagination-page-item.oxd-pagination-page-item--previous-next",
-                    )
-                    .last();
-
-                try {
-                    await nextButtonAfterUpload.waitFor({ timeout: 10000 });
-                    await nextButtonAfterUpload.click();
-                } catch (e) {
-                    console.log("Next button not found, continuing...");
-                }
-
-                const isVisibleAfterUpload =
-                    await nextButtonAfterUpload.isVisible();
-
-                if (isVisibleAfterUpload) {
-                    // await nextButtonAfterUpload.click();
-                    console.log("✅ Clicked on the Next button after upload.");
-                } else {
-                    console.log(
-                        "❌ Still no next page available even after upload.",
-                    );
-                }
             }
-        } catch (error) {
-            console.error(
-                "❌ Error while handling pagination or upload:",
-                error,
-            );
         }
-
-        await page.pause();
-    });
-
-    async function uploadCsv(page: Page, filePath: string) {
-        await page
-            .locator("span.oxd-topbar-body-nav-tab-item")
-            .filter({ hasText: "Configuration" })
-            .click();
-
-        await page
-            .locator("a.oxd-topbar-body-nav-tab-link")
-            .filter({ hasText: "Data Import" })
-            .click();
-
-        await expect(page).toHaveURL(/.*\/pimCsvImport*/i);
-        const fileInput = page.locator("input[type='file']");
-        await fileInput.setInputFiles(filePath);
-
-        await page.getByRole("button", { name: "Upload" }).click();
-        const modal = page.locator("role=document >> text=Import Details");
-        await expect(modal).toBeVisible();
+    } catch (error) {
+        console.error("❌ Error while handling pagination or upload:", error);
     }
+
+    await page.pause();
 });
+
+async function uploadCsv(page: Page, filePath: string) {
+    await page
+        .locator("span.oxd-topbar-body-nav-tab-item")
+        .filter({ hasText: "Configuration" })
+        .click();
+
+    await page
+        .locator("a.oxd-topbar-body-nav-tab-link")
+        .filter({ hasText: "Data Import" })
+        .click();
+
+    await expect(page).toHaveURL(/.*\/pimCsvImport*/i);
+    const fileInput = page.locator("input[type='file']");
+    await fileInput.setInputFiles(filePath);
+
+    await page.getByRole("button", { name: "Upload" }).click();
+    const modal = page.locator("role=document >> text=Import Details");
+    await expect(modal).toBeVisible();
+}
