@@ -1,17 +1,6 @@
 /* eslint-disable playwright/require-soft-assertions */
 /* eslint-disable playwright/require-top-level-describe */
 import { test, expect } from "@playwright/test";
-
-// test("Navigate to OrangeHRM Login Page", async ({ page }) => {
-//     await page.goto(
-//         "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login",
-//     );
-
-//     await expect(page).toHaveURL(/.*auth\/login/);
-//     const loginButton = page.locator("button[type='submit']");
-//     await expect(loginButton).toBeVisible();
-// });
-
 test("OrangeHRM Login Test", async ({ page }) => {
     // Navigate to the Login Page
     await page.goto(

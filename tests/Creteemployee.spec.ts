@@ -5,52 +5,65 @@ import { login } from "../utilities/login";
 import * as fs from "fs";
 import { faker } from "@faker-js/faker";
 
+<<<<<<< Updated upstream
 test("OrangeHRM Add Employee Test", async ({ page }) => {
     await login(page);
+=======
+test.describe("OrangeHRM Tests", () => {
+    //This runs before each test in this describe block
+    test.beforeEach(async ({ page }) => {
+        await login(page); // Login step
+        //await createemployee(page); // Employee creation
+    });
 
-    await page.getByRole("link", { name: "PIM" }).click();
-    await expect.soft(page).toHaveURL(/.*pim.*/i);
+    test("OrangeHRM Add Employee Test", async ({ page }) => {
+        //await login(page);
+>>>>>>> Stashed changes
 
-    const pimHeader = page.locator("h5:has-text('Employee Information')");
-    await expect.soft(pimHeader).toBeVisible();
+        await page.getByRole("link", { name: "PIM" }).click();
+        await expect.soft(page).toHaveURL(/.*pim.*/i);
 
-    await page.getByRole("button", { name: " Add" }).click();
-    await expect.soft(page).toHaveURL(/.*pim.*/i);
+        const pimHeader = page.locator("h5:has-text('Employee Information')");
+        await expect.soft(pimHeader).toBeVisible();
 
-    const addempHeader = page.locator("h6:has-text('Add Employee')");
-    await expect.soft(addempHeader).toBeVisible();
+        await page.getByRole("button", { name: " Add" }).click();
+        await expect.soft(page).toHaveURL(/.*pim.*/i);
 
-    const firstName = faker.person.firstName();
-    const middleName = faker.person.middleName();
-    const lastName = faker.person.lastName();
-    await page.getByPlaceholder("First Name").fill(firstName);
-    await page.getByPlaceholder("Middle Name").fill(middleName);
-    await page.getByPlaceholder("Last Name").fill(lastName);
+        const addempHeader = page.locator("h6:has-text('Add Employee')");
+        await expect.soft(addempHeader).toBeVisible();
 
-    function generateUTCId(): string {
-        const now = new Date();
-        const fullTimeStr = now.toISOString().replace(/[-:.TZ]/g, "");
-        return fullTimeStr.substring(0, 10);
-    }
+        const firstName = faker.person.firstName();
+        const middleName = faker.person.middleName();
+        const lastName = faker.person.lastName();
+        await page.getByPlaceholder("First Name").fill(firstName);
+        await page.getByPlaceholder("Middle Name").fill(middleName);
+        await page.getByPlaceholder("Last Name").fill(lastName);
 
-    // Fill employee ID field
-    const uniqueEmpID = generateUTCId();
+        function generateUTCId(): string {
+            const now = new Date();
+            const fullTimeStr = now.toISOString().replace(/[-:.TZ]/g, "");
+            return fullTimeStr.substring(0, 10);
+        }
 
-    await page.getByRole("textbox").nth(4).fill(uniqueEmpID);
+        // Fill employee ID field
+        const uniqueEmpID = generateUTCId();
 
-    // Save employee ID to JSON file
-    const empData = { employeeId: uniqueEmpID };
-    fs.writeFileSync(
-        "data/employeeData.json",
-        JSON.stringify(empData, null, 2),
-    );
+        await page.getByRole("textbox").nth(4).fill(uniqueEmpID);
 
-    await page.getByRole("button", { name: "Save" }).click();
+        // Save employee ID to JSON file
+        const empData = { employeeId: uniqueEmpID };
+        fs.writeFileSync(
+            "data/employeeData.json",
+            JSON.stringify(empData, null, 2),
+        );
 
-    await expect.soft(page).toHaveURL(/.*PersonalDetails.*/i);
+        await page.getByRole("button", { name: "Save" }).click();
 
-    const pdHeader = page.locator("h6:has-text('Personal Details')");
-    await expect.soft(pdHeader).toBeVisible();
+        await expect.soft(page).toHaveURL(/.*PersonalDetails.*/i);
 
-    // await page.pause();
+        const pdHeader = page.locator("h6:has-text('Personal Details')");
+        await expect.soft(pdHeader).toBeVisible();
+
+        // await page.pause();
+    });
 });

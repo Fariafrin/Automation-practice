@@ -5,30 +5,38 @@ import { login } from "../utilities/login";
 import { createemployee } from "../utilities/createemployee";
 import * as fs from "fs";
 
-test("OrangeHRM Login Test", async ({ page }) => {
-    // Navigate to the Login Page
-    await login(page);
+test.describe("OrangeHRM Tests", () => {
+    //This runs before each test in this describe block
+    test.beforeEach(async ({ page }) => {
+        await login(page); // Login step
+        await createemployee(page); // Employee creation
+    });
 
-    await createemployee(page);
+    test("OrangeHRM Login Test", async ({ page }) => {
+        // Navigate to the Login Page
+        // await login(page);
 
-    await page.getByRole("link", { name: "PIM" }).click();
-    await expect.soft(page).toHaveURL(/.*pim.*/i);
+        // await createemployee(page);
 
-    const pimHeader = page.locator("h5:has-text('Employee Information')");
-    await expect.soft(pimHeader).toBeVisible();
+        await page.getByRole("link", { name: "PIM" }).click();
+        await expect.soft(page).toHaveURL(/.*pim.*/i);
 
-    // Read employeeId from JSON file
-    const empData = JSON.parse(
-        fs.readFileSync("data/employeeData.json", "utf-8"),
-    );
-    const employeeId = empData.employeeId;
+        const pimHeader = page.locator("h5:has-text('Employee Information')");
+        await expect.soft(pimHeader).toBeVisible();
 
-    // Fill Employee ID Search Field
-    await page.getByRole("textbox").nth(2).fill(employeeId);
+        // Read employeeId from JSON file
+        const empData = JSON.parse(
+            fs.readFileSync("data/employeeData.json", "utf-8"),
+        );
+        const employeeId = empData.employeeId;
 
-    await page.getByRole("button", { name: "Search" }).click();
-    await page.getByRole("button", { name: "Search" }).click();
+        // Fill Employee ID Search Field
+        await page.getByRole("textbox").nth(2).fill(employeeId);
 
-    await page.pause();
-    // console.log("*************************************************");
+        await page.getByRole("button", { name: "Search" }).click();
+        await page.getByRole("button", { name: "Search" }).click();
+
+        await page.pause();
+        // console.log("*************************************************");
+    });
 });
