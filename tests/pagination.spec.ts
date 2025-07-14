@@ -24,7 +24,7 @@ test("OrangeHRM Conditional Employee Upload and Pagination Test", async ({
     //     )
     //
 
-    const nextButton = await page.locator(".oxd-icon.bi-chevron-right");
+    const nextButton = page.locator(".oxd-icon.bi-chevron-right");
 
     console.log("#####################################");
 
@@ -37,10 +37,11 @@ test("OrangeHRM Conditional Employee Upload and Pagination Test", async ({
 
     //await page.pause();
 
+    await expect(nextButton).toBeVisible({ timeout: 10000 });
+
     const isVisible = await nextButton.isVisible();
     console.log("***************************");
     console.log("Is Next button visible?", isVisible);
-    expect(nextButton).toBeVisible({ timeout: 10000 });
 
     try {
         // const isVisible = await nextButton.isVisible();
