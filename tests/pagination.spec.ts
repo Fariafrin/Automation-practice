@@ -18,23 +18,35 @@ test("OrangeHRM Conditional Employee Upload and Pagination Test", async ({
     const pimHeader = page.locator("h5:has-text('Employee Information')");
     await expect.soft(pimHeader).toBeVisible();
 
-    const nextButton = page
-        .locator(
-            ".oxd-pagination-page-item.oxd-pagination-page-item--previous-next",
-        )
-        .last();
+    // const nextButton = page
+    //     .locator(
+    //         ".oxd-pagination-page-item.oxd-pagination-page-item--previous-next",
+    //     )
+    //
+
+    const nextButton = await page.locator(".oxd-icon.bi-chevron-right");
+
+    console.log("#####################################");
+
+    // try {
+    //     await nextButton.waitFor({ timeout: 10000 });
+    //     await nextButton.click();
+    // } catch (e) {
+    //     console.log("Next button not found, continuing...");
+    // }
+
+    //await page.pause();
+
+    const isVisible = await nextButton.isVisible();
+    console.log("***************************");
+    console.log("Is Next button visible?", isVisible);
+    expect(nextButton).toBeVisible({ timeout: 10000 });
 
     try {
-        await nextButton.waitFor({ timeout: 10000 });
-        await nextButton.click();
-    } catch (e) {
-        console.log("Next button not found, continuing...");
-    }
+        // const isVisible = await nextButton.isVisible();
+        // await nextButton.waitFor({ timeout: 10000 });
 
-    try {
-        const isVisible = await nextButton.isVisible();
-
-        await page.pause();
+        //await page.pause();
 
         if (isVisible) {
             await nextButton.click();

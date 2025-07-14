@@ -5,6 +5,13 @@ import { login } from "../utilities/login";
 import * as fs from "fs";
 import { faker } from "@faker-js/faker";
 
+//test.describe("OrangeHRM Tests", () => {
+// This runs before each test in this describe block
+// test.beforeEach(async ({ page }) => {
+//     await login(page); // Login step
+//     //await createemployee(page); // Employee creation
+// });
+
 test("OrangeHRM Add Employee Test", async ({ page }) => {
     await login(page);
 
@@ -54,3 +61,4 @@ test("OrangeHRM Add Employee Test", async ({ page }) => {
 
     // await page.pause();
 });
+//});
