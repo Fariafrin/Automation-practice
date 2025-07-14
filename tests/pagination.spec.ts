@@ -11,14 +11,13 @@ test("OrangeHRM Conditional Employee Upload and Pagination Test", async ({
 }) => {
     await login(page);
 
-    // Step 1: Go to PIM
+    // PIM
     await page.getByRole("link", { name: "PIM" }).click();
     await expect.soft(page).toHaveURL(/.*pim.*/i);
 
     const pimHeader = page.locator("h5:has-text('Employee Information')");
     await expect.soft(pimHeader).toBeVisible();
 
-    // Step 2: Try clicking the next pagination button
     const nextButton = page
         .locator(
             ".oxd-pagination-page-item.oxd-pagination-page-item--previous-next",
@@ -44,7 +43,7 @@ test("OrangeHRM Conditional Employee Upload and Pagination Test", async ({
         } else {
             console.log("⚠️ Next button is hidden. Uploading 60 employees...");
 
-            // Step 3: Upload CSV if Next button is hidden
+            // Upload CSV if Next button is hidden
             await page.pause();
             const csvPath = generateEmployeeCSV(50);
             await uploadCsv(page, csvPath);
@@ -55,16 +54,12 @@ test("OrangeHRM Conditional Employee Upload and Pagination Test", async ({
             await okButton.click();
             console.log("✅ Clicked on OK button after upload.");
 
-            //await expect(page).toHaveURL(/.*\/pimCsvImport*/i);
-            // const dataHeader = page.locator("p:has-text("Data Import")");
-            // await expect.soft(dataHeader).toBeVisible();
-
             await page.getByRole("link", { name: "PIM" }).click();
             await expect.soft(page).toHaveURL(/.*pim.*/i);
 
             await expect.soft(pimHeader).toBeVisible();
 
-            // Step 4: Try clicking next again after upload
+            // Try clicking next after upload
             const nextButtonAfterUpload = page
                 .locator(
                     ".oxd-pagination-page-item.oxd-pagination-page-item--previous-next",
@@ -97,7 +92,6 @@ test("OrangeHRM Conditional Employee Upload and Pagination Test", async ({
     await page.pause();
 });
 
-// 📦 Helper to upload CSV
 async function uploadCsv(page: Page, filePath: string) {
     await page
         .locator("span.oxd-topbar-body-nav-tab-item")
