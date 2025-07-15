@@ -1,9 +1,12 @@
+/* eslint-disable playwright/no-useless-await */
 /* eslint-disable playwright/require-top-level-describe */
 /* eslint-disable playwright/no-page-pause */
 import { test, expect } from "@playwright/test";
 import { login } from "../utilities/login";
 import * as fs from "fs";
 import { faker } from "@faker-js/faker";
+import { clickElement } from "../utilities/wrappers/click";
+import { fillInput } from "../utilities/wrappers/fill";
 
 test.describe("OrangeHRM Tests", () => {
     //This runs before each test in this describe block
@@ -14,13 +17,15 @@ test.describe("OrangeHRM Tests", () => {
     test("OrangeHRM Add Employee Test", async ({ page }) => {
         //await login(page);
 
-        await page.getByRole("link", { name: "PIM" }).click();
+        const pim = await page.getByRole("link", { name: "PIM" });
+        await clickElement(pim);
         await expect.soft(page).toHaveURL(/.*pim.*/i);
 
         const pimHeader = page.locator("h5:has-text('Employee Information')");
         await expect.soft(pimHeader).toBeVisible();
 
-        await page.getByRole("button", { name: " Add" }).click();
+        const addbutton = page.getByRole("button", { name: " Add" });
+        await clickElement(addbutton);
         await expect.soft(page).toHaveURL(/.*pim.*/i);
 
         const addempHeader = page.locator("h6:has-text('Add Employee')");
@@ -51,7 +56,8 @@ test.describe("OrangeHRM Tests", () => {
             JSON.stringify(empData, null, 2),
         );
 
-        await page.getByRole("button", { name: "Save" }).click();
+        const savebutton = page.getByRole("button", { name: "Save" });
+        await clickElement(savebutton);
 
         await expect.soft(page).toHaveURL(/.*PersonalDetails.*/i);
 

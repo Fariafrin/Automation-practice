@@ -1,12 +1,20 @@
 import { Page, expect } from "@playwright/test";
+import { clickElement } from "../utilities/wrappers/click";
+import { fillInput } from "../utilities/wrappers/fill";
+import { gotoURL } from "../utilities/wrappers/goto";
 
 export async function login(page: Page) {
-    await page.goto(
+    const usernameInput = page.getByPlaceholder("Username");
+    const passwordInput = page.getByPlaceholder("Password");
+    const loginButton = page.getByRole("button", { name: "Login" });
+
+    await gotoURL(
+        page,
         "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login",
     );
-    await page.getByPlaceholder("Username").fill("Admin");
-    await page.getByPlaceholder("Password").fill("admin123");
-    await page.getByRole("button", { name: "Login" }).click();
+    await fillInput(usernameInput, "Admin");
+    await fillInput(passwordInput, "admin123");
+    await clickElement(loginButton);
 
     // Optional assertions to ensure login worked
     await expect.soft(page).toHaveURL(/.*dashboard/);
