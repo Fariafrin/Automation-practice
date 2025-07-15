@@ -1,6 +1,5 @@
 /* eslint-disable playwright/no-page-pause */
-import { Page, expect } from "@playwright/test";
-import * as fs from "fs";
+import { Page } from "@playwright/test";
 
 export async function editEmployee(page: Page) {
     await page.getByPlaceholder("First Name").fill("TESTEDIT");
