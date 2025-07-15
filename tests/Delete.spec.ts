@@ -18,12 +18,6 @@ test.describe("OrangeHRM Tests", () => {
     });
 
     test("OrangeHRM Login Test", async ({ page }) => {
-        // Navigate to the Login Page
-        // await login(page);
-        // await createemployee(page);
-        // await searchEmployee(page);
-        // await editEmployee(page);
-
         const pimHeader = page.locator("h5:has-text('Employee Information')");
         // Read employeeId from JSON file
         const empData = JSON.parse(

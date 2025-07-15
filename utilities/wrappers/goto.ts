@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-imports */
 import { Page, Locator, expect } from "@playwright/test";
 
 // Wrapper for navigation
