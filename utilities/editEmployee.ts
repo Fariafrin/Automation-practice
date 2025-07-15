@@ -1,10 +1,13 @@
 /* eslint-disable playwright/no-page-pause */
 import { Page } from "@playwright/test";
-
+import { clickElement } from "../utilities/wrappers/click";
+import { fillInput } from "../utilities/wrappers/fill";
+import { EmployeePage } from "../page_objects/pim";
 export async function editEmployee(page: Page) {
-    await page.getByPlaceholder("First Name").fill("TESTEDIT");
-    await page.pause();
-    await page.getByRole("button", { name: "Save" }).nth(0).click();
+    const employeePage = new EmployeePage(page);
+
+    await fillInput(employeePage.getFirstNameEditInput(), "TestEdit");
+    await clickElement(employeePage.getSaveEditButton());
 
     await page.pause();
 }

@@ -1,12 +1,19 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import { Page, expect } from "@playwright/test";
 import * as fs from "fs";
+import { EmployeePage } from "../page_objects/pim";
+import { fillInput } from "./wrappers/fill";
+import { clickElement } from "./wrappers/click";
 
 export async function searchEmployee(page: Page) {
-    await page.getByRole("link", { name: "PIM" }).click();
+    const employeePage = new EmployeePage(page);
+
+    // Click on PIM link
+    await clickElement(employeePage.getPIMLink());
     await expect.soft(page).toHaveURL(/.*pim.*/i);
 
-    const pimHeader = page.locator("h5:has-text('Employee Information')");
-    await expect.soft(pimHeader).toBeVisible();
+    // Validate PIM header is visible
+    await expect.soft(employeePage.getPIMHeader()).toBeVisible();
 
     // Read employeeId from JSON file
     const empData = JSON.parse(
@@ -14,16 +21,18 @@ export async function searchEmployee(page: Page) {
     );
     const employeeId = empData.employeeId;
 
-    // Fill Employee ID Search Field
-    await page.getByRole("textbox").nth(2).fill(employeeId);
+    // Fill Employee ID Search Field using page object locator
+    await fillInput(employeePage.getEmployeeIdSearchgInput(), employeeId);
 
-    await page.getByRole("button", { name: "Search" }).click();
-    await page.getByRole("button", { name: "Search" }).click();
+    // Click Search button twice as per your original implementation
+    await clickElement(employeePage.getSearchButton());
+    await clickElement(employeePage.getSearchButton());
 
-    await page.locator(".oxd-icon.bi-pencil-fill").click();
+    // Click Pencil icon to edit employee details
+    await clickElement(employeePage.getPencilIcon());
 
     await expect.soft(page).toHaveURL(/.*PersonalDetails.*/i);
 
-    const pdHeader = page.locator("h6:has-text('Personal Details')");
-    await expect.soft(pdHeader).toBeVisible();
+    // Validate Personal Details header is visible
+    await expect.soft(employeePage.getPersonalDetailsHeader()).toBeVisible();
 }

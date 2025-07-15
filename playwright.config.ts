@@ -37,12 +37,18 @@ export default defineConfig({
           ]
         : [["list"]],
 
-    use: {
-        trace: "on-first-retry",
-        actionTimeout: 10 * 60000,
-        navigationTimeout: 10 * 60000,
+    expect: {
+        // Maximum time expect() should wait for the condition to be met
+        timeout: 90 * 1000, // isPipeline ? 2 * 60 * 1000 : 90 * 1000, // 20 seconds
     },
 
+    use: {
+        trace: "on-first-retry",
+        actionTimeout: 60 * 1000 * 5,
+        navigationTimeout: 60 * 1000 * 5,
+    },
+
+    // Global timeout for each test
     timeout: 10 * 60000,
 
     projects: [

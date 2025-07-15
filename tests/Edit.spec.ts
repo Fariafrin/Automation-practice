@@ -1,10 +1,8 @@
-/* eslint-disable unused-imports/no-unused-imports */
-/* eslint-disable playwright/require-top-level-describe */
-/* eslint-disable playwright/no-page-pause */
 import { test } from "@playwright/test";
-import { login } from "../utilities/login";
+import { login } from "../utilities/Login";
 import { createemployee } from "../utilities/createemployee";
 import { searchEmployee } from "../utilities/searchEmployee";
+import { editEmployee } from "../utilities/editEmployee";
 
 test.describe("OrangeHRM Tests", () => {
     //This runs before each test in this describe block
@@ -14,12 +12,7 @@ test.describe("OrangeHRM Tests", () => {
         await searchEmployee(page);
     });
 
-    test("OrangeHRM Login Test", async ({ page }) => {
-        await page.getByPlaceholder("First Name").fill("TESTEDIT");
-        await page.pause();
-        await page.getByRole("button", { name: "Save" }).nth(0).click();
-
-        await page.pause();
-        // console.log("*************************************************");
+    test("OrangeHRM Edit Employee Test", async ({ page }) => {
+        await editEmployee(page);
     });
 });

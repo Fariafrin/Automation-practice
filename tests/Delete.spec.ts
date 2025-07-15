@@ -1,7 +1,7 @@
 /* eslint-disable playwright/require-top-level-describe */
 /* eslint-disable playwright/no-page-pause */
 import { test, expect } from "@playwright/test";
-import { login } from "../utilities/login";
+import { login } from "../utilities/Login";
 import { createemployee } from "../utilities/createemployee";
 import { searchEmployee } from "../utilities/searchEmployee";
 import { editEmployee } from "../utilities/editEmployee";
@@ -17,7 +17,7 @@ test.describe("OrangeHRM Tests", () => {
         await editEmployee(page);
     });
 
-    test("OrangeHRM Login Test", async ({ page }) => {
+    test("OrangeHRM Delete Employee Test", async ({ page }) => {
         const pimHeader = page.locator("h5:has-text('Employee Information')");
         // Read employeeId from JSON file
         const empData = JSON.parse(

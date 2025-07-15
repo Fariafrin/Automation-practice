@@ -1,49 +1,57 @@
 import { Page, expect } from "@playwright/test";
 import * as fs from "fs";
+import { clickElement } from "../utilities/wrappers/click";
+import { fillInput } from "../utilities/wrappers/fill";
+import { faker } from "@faker-js/faker";
+import { EmployeePage } from "../page_objects/pim";
 
 export async function createemployee(page: Page) {
-    await page.getByRole("link", { name: "PIM" }).click();
+    const employeePage = new EmployeePage(page);
+
+    await clickElement(employeePage.getPIMLink());
     await expect.soft(page).toHaveURL(/.*pim.*/i);
 
-    const pimHeader = page.locator("h5:has-text('Employee Information')");
-    await expect.soft(pimHeader).toBeVisible();
+    await expect.soft(employeePage.getPIMHeader()).toBeVisible();
 
-    await page.getByRole("button", { name: " Add" }).click();
+    await clickElement(employeePage.getAddButton());
     await expect.soft(page).toHaveURL(/.*pim.*/i);
 
-    const addempHeader = page.locator("h6:has-text('Add Employee')");
-    await expect.soft(addempHeader).toBeVisible();
+    await expect.soft(employeePage.getAddEmployeeHeader()).toBeVisible();
 
-    await page.getByPlaceholder("First Name").fill("Lisa");
-    await page.getByPlaceholder("Middle Name").fill("AF");
-    await page.getByPlaceholder("Last Name").fill("RiN");
+    const firstName = faker.person.firstName();
+    const middleName = faker.person.middleName();
+    const lastName = faker.person.lastName();
 
-    // Capture employee ID
-    //await page.getByRole("textbox").nth(4).fill("9102");
+    await fillInput(employeePage.getFirstNameInput(), firstName);
+    await fillInput(employeePage.getMiddleNameInput(), middleName);
+    await fillInput(employeePage.getLastNameInput(), lastName);
 
-    // Function to generate a 10-digit unique ID
-    function generate10DigitID(): string {
-        const min = 1000000000; // Smallest 10-digit number
-        const max = 9999999999; // Largest 10-digit number
-        return Math.floor(Math.random() * (max - min + 1) + min).toString();
+    function generateUTCId(): string {
+        // Get current UTC time in seconds since epoch
+        const secondsSinceEpoch = Math.floor(Date.now() / 1000);
+        // Convert to string and ensure it's max 10 digits
+        return secondsSinceEpoch.toString();
     }
 
-    // Fill employee ID field
-    const uniqueEmpID = generate10DigitID();
-
-    await page.getByRole("textbox").nth(4).fill(uniqueEmpID);
+    const uniqueEmpID = generateUTCId();
+    // await page.pause();
+    // console.log("***************************");
+    // console.log("Generated Employee ID:", uniqueEmpID);
+    // console.log("***************************");
+    await fillInput(employeePage.getEmployeeIdInput(), uniqueEmpID);
 
     // Save employee ID to JSON file
     const empData = { employeeId: uniqueEmpID };
+    // console.log("***************************");
+    console.log("Employee Data:", empData);
+    // console.log("***************************");
     fs.writeFileSync(
         "data/employeeData.json",
         JSON.stringify(empData, null, 2),
     );
 
-    await page.getByRole("button", { name: "Save" }).click();
-
+    await clickElement(employeePage.getSaveButton());
     await expect.soft(page).toHaveURL(/.*PersonalDetails.*/i);
 
-    const pdHeader = page.locator("h6:has-text('Personal Details')");
-    await expect.soft(pdHeader).toBeVisible();
+    await expect.soft(employeePage.getPersonalDetailsHeader()).toBeVisible();
 }

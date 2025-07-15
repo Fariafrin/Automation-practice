@@ -3,7 +3,7 @@
 /* eslint-disable playwright/require-soft-assertions */
 /* eslint-disable playwright/no-page-pause */
 import { test, expect } from "@playwright/test";
-import { login } from "../utilities/login";
+import { login } from "../utilities/Login";
 //import { Page } from "@playwright/test";
 import { generateEmployeeCSV } from "../utilities/generateEmployeeCSV";
 import { uploadCSV } from "../utilities/uploadCSV";
