@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 import { Page, expect } from "@playwright/test";
 import * as fs from "fs";
 import { EmployeePage } from "../page_objects/pim";

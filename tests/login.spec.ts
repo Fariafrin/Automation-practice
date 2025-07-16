@@ -2,6 +2,8 @@
 import { test } from "@playwright/test";
 import { login } from "../utilities/loginHelper";
 
-test("OrangeHRM Login Test", async ({ page }) => {
-    await login(page);
+test.describe("OrangeHRM Tests", () => {
+    test("OrangeHRM Login Test", async ({ page }) => {
+        await login(page);
+    });
 });

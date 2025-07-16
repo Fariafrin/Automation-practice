@@ -1,4 +1,3 @@
-/* eslint-disable playwright/no-page-pause */
 import { Page } from "@playwright/test";
 import { clickElement } from "./wrappers/click";
 import { fillInput } from "./wrappers/fill";
@@ -9,5 +8,5 @@ export async function editEmployee(page: Page) {
     await fillInput(employeePage.getFirstNameEditInput(), "TestEdit");
     await clickElement(employeePage.getSaveEditButton());
 
-    await page.pause();
+    //await page.pause();
 }

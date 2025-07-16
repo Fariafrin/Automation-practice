@@ -1,4 +1,3 @@
-/* eslint-disable playwright/require-soft-assertions */
 import { Page, expect } from "@playwright/test";
 
 export async function uploadCSV(page: Page, filePath: string) {

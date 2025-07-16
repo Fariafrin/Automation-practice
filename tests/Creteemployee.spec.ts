@@ -6,7 +6,6 @@ test.describe("OrangeHRM Tests", () => {
     //This runs before each test in this describe block
     test.beforeEach(async ({ page }) => {
         await login(page);
-        // await createemployee(page);
     });
 
     test("OrangeHRM Add Employee Test", async ({ page }) => {
