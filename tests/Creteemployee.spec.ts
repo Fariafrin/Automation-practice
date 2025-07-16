@@ -1,6 +1,6 @@
 import { test } from "@playwright/test";
-import { login } from "../utilities/Login";
-import { createemployee } from "../utilities/createemployee";
+import { login } from "../utilities/loginHelper";
+import { createemployee } from "../utilities/createemployeeHelper";
 
 test.describe("OrangeHRM Tests", () => {
     //This runs before each test in this describe block

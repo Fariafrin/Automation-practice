@@ -1,7 +1,7 @@
 import { Page, expect } from "@playwright/test";
 import * as fs from "fs";
-import { clickElement } from "../utilities/wrappers/click";
-import { fillInput } from "../utilities/wrappers/fill";
+import { clickElement } from "./wrappers/click";
+import { fillInput } from "./wrappers/fill";
 import { faker } from "@faker-js/faker";
 import { EmployeePage } from "../page_objects/pim";
 

@@ -1,10 +1,10 @@
 /* eslint-disable playwright/require-top-level-describe */
 /* eslint-disable playwright/no-page-pause */
 import { test, expect } from "@playwright/test";
-import { login } from "../utilities/Login";
-import { createemployee } from "../utilities/createemployee";
-import { searchEmployee } from "../utilities/searchEmployee";
-import { editEmployee } from "../utilities/editEmployee";
+import { login } from "../utilities/loginHelper";
+import { createemployee } from "../utilities/createemployeeHelper";
+import { searchEmployee } from "../utilities/searchEmployeeHelper";
+import { editEmployee } from "../utilities/editEmployeeHelper";
 
 import * as fs from "fs";
 

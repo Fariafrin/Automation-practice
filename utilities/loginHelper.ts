@@ -23,9 +23,9 @@
 // }
 
 import { Page, expect } from "@playwright/test";
-import { clickElement } from "../utilities/wrappers/click";
-import { fillInput } from "../utilities/wrappers/fill";
-import { gotoURL } from "../utilities/wrappers/goto";
+import { clickElement } from "./wrappers/click";
+import { fillInput } from "./wrappers/fill";
+import { gotoURL } from "./wrappers/goto";
 import { LoginPage } from "../page_objects/loginPage";
 
 export async function login(page: Page) {

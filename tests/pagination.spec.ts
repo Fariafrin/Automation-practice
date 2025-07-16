@@ -3,10 +3,10 @@
 /* eslint-disable playwright/require-soft-assertions */
 /* eslint-disable playwright/no-page-pause */
 import { test, expect } from "@playwright/test";
-import { login } from "../utilities/Login";
+import { login } from "../utilities/loginHelper";
 //import { Page } from "@playwright/test";
-import { generateEmployeeCSV } from "../utilities/generateEmployeeCSV";
-import { uploadCSV } from "../utilities/uploadCSV";
+import { generateEmployeeCSV } from "../utilities/generateEmployeeCsvHelper";
+import { uploadCSV } from "../utilities/uploadCsvHelper";
 
 test("OrangeHRM Conditional Employee Upload and Pagination Test", async ({
     page,

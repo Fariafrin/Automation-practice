@@ -1,7 +1,7 @@
 /* eslint-disable playwright/no-page-pause */
 import { Page } from "@playwright/test";
-import { clickElement } from "../utilities/wrappers/click";
-import { fillInput } from "../utilities/wrappers/fill";
+import { clickElement } from "./wrappers/click";
+import { fillInput } from "./wrappers/fill";
 import { EmployeePage } from "../page_objects/pim";
 export async function editEmployee(page: Page) {
     const employeePage = new EmployeePage(page);
