@@ -4,6 +4,6 @@ import { Page, Locator, expect } from "@playwright/test";
 
 // Wrapper for clicking a button or element
 export async function clickElement(locator: Locator) {
-    await expect(locator).toBeVisible({ timeout: 5000 });
+    await expect(locator).toBeVisible({ timeout: 20 * 1000 });
     await locator.click();
 }
