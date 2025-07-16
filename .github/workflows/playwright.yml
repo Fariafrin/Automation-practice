@@ -1,16 +1,15 @@
+# eslint-disable yml/block-sequence 
 name: Run Playwright Tests
 
 on:
     push:
-        # eslint-disable-next-line yml/block-sequence
         branches: [CI/CD-Branch]
     pull_request:
-        # eslint-disable-next-line yml/block-sequence
         branches: [CI/CD-Branch]
 
 jobs:
     test:
-        name: Run Tests on Ubuntu
+        name: Run Playwright Tests
         runs-on: ubuntu-latest
 
         steps:
@@ -21,7 +20,7 @@ jobs:
                 uses: actions/setup-node@v4
                 with:
                     node-version: 20
-                    cache: "pnpm"
+                    cache: "npm"
 
             -   name: Install pnpm
                 run: |
