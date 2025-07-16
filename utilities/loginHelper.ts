@@ -26,7 +26,7 @@ import { Page, expect } from "@playwright/test";
 import { clickElement } from "./wrappers/click";
 import { fillInput } from "./wrappers/fill";
 import { gotoURL } from "./wrappers/goto";
-import { LoginPage } from "../page_objects/loginPage";
+import { LoginPage } from "../page_objects/LoginPage";
 
 export async function login(page: Page) {
     const loginPage = new LoginPage(page);
