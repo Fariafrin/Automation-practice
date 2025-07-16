@@ -71,6 +71,27 @@ export class EmployeePage extends basePage {
         return this.page.getByRole("button", { name: "Save" }).nth(0);
     }
 
+    //deleteemployee
+    // getPIMLink(): Locator {
+    //     return this.page.getByRole("link", { name: "PIM" });
+    // }
+
+    // getPIMHeader(): Locator {
+    //     return this.page.locator("h5:has-text('Employee Information')");
+    // }
+
+    getEmployeeIdSearchInput(): Locator {
+        return this.page.getByRole("textbox").nth(2);
+    }
+
+    // getSearchButton(): Locator {
+    //     return this.page.getByRole("button", { name: "Search" });
+    // }
+
+    getTrashIcon(): Locator {
+        return this.page.locator(".oxd-icon.bi-trash");
+    }
+
     // getPersonalDetailsHeader(): Locator {
     //     return this.page.locator("h6:has-text('Personal Details')");
     // }
