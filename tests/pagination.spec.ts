@@ -1,7 +1,3 @@
-/* eslint-disable playwright/no-wait-for-timeout */
-/* eslint-disable playwright/require-top-level-describe */
-/* eslint-disable playwright/require-soft-assertions */
-/* eslint-disable playwright/no-page-pause */
 import { test, expect } from "@playwright/test";
 import { login } from "../utilities/loginHelper";
 //import { Page } from "@playwright/test";
@@ -46,7 +42,7 @@ test("OrangeHRM Conditional Employee Upload and Pagination Test", async ({
             console.log("⚠️ Next button is hidden. Uploading 60 employees...");
 
             // Upload CSV if Next button is hidden
-            await page.pause();
+            //await page.pause();
             const csvPath = generateEmployeeCSV(50);
             await uploadCSV(page, csvPath);
 
@@ -91,7 +87,7 @@ test("OrangeHRM Conditional Employee Upload and Pagination Test", async ({
         console.error("❌ Error while handling pagination or upload:", error);
     }
 
-    await page.pause();
+    //await page.pause();
 });
 
 // async function uploadCsv(page: Page, filePath: string) {
