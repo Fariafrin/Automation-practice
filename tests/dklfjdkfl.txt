@@ -1,0 +1,4 @@
+B33500122JAUBCP2BQC       N                    AESUIT026           Have you entered into an agreement to sell or assign this annuity? If  Yes  please explain below.                                                                                                                                        
+B33510122JAUBCP2BQC       Ma         No 
+B33500122JAUBCP2BQC       N                    AESUIT026a           Have you entered into an agreement to sell or assign this annuity? If  Yes  please explain below.                                                                                                                                        
+B33510122JAUBCP2BQC       Ma         Some reasonable explanation
